@@ -1,14 +1,16 @@
-import { create, findAll, getID, deleteID, update, search } from '../Services/newsService.js'
+import { create, findAll, getID, deleteID, update, search, findDocuments } from '../Services/newsService.js'
 
-export const getNewsAll = async (__, res) => {
-    try {
+export const getNewsAll = async (req, res) => {
+    try { 
         const news = await findAll()
+        const newsDocuments = await findDocuments() //How many products registered in database
 
         if (news.length === 0) return res.status(404).send({ messagem: "Not news registers" })
 
         res.status(200).json({
             messagem: "Sucessful!",
             url: process.env.URL || "http://localhost:3333/images/",
+            newsDocuments,
             results: news.map((item) => ({
                 id: item._id,
                 filename: item.filename,
@@ -18,7 +20,8 @@ export const getNewsAll = async (__, res) => {
                 price: item.price,
                 category: item.category,
                 user: item.user,
-            }))
+            })),
+
         })
     } catch (error) {
         return res.status(400).send({ messagem: error.messagem })
@@ -42,22 +45,26 @@ export const getNewsID = async (req, res) => {
 export const createNews = async (req, res) => {
     const { title, description, discount, price, category } = req.body
     const { filename, path } = req.file
+    try {
+        const news = await create({
+            filename,
+            path,
+            title,
+            description,
+            discount,
+            price,
+            category,
+            user: req.userId
+        })
+        res.status(201).json({
+            sucess: true,
+            news
+        })
 
-    const news = await create({
-        filename,
-        path,
-        title,
-        description,
-        discount,
-        price,
-        category,
-        user: req.userId
-    })
-    news.save().then(data => {
-        res.json(data);
-    }).catch(error => {
-        res.json({ message: error });
-    });
+    } catch (err) {
+        return res.status(400).send({ messagem: err.messagem })
+    }
+
 }
 
 export const deleteNews = async (req, res) => {
@@ -101,7 +108,7 @@ export const updateID = async (req, res) => {
 
 export const searchNews = async (req, res) => {
     try {
-        const {searchTerm} = req.query
+        const { searchTerm } = req.query
         const news = await search(searchTerm)
 
         return res.status(200).json({

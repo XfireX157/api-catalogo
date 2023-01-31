@@ -12,7 +12,7 @@ const CategorySchema = new mongoose.Schema({
         ref: 'users',
         required: true
     }
-}, {collection: 'cateogry'})
+}, {collection: 'category'})
 
 const Category = mongoose.model('category', CategorySchema)
 

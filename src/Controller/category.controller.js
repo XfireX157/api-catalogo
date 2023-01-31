@@ -1,5 +1,4 @@
-import { create, findAll, deleteIDCategory, updateID, getID } from "../Services/categoryService.js";
-
+import { create, findAll, deleteIDCategory, updateID, getIDCategory } from "../Services/categoryService.js";
 
 export const categoryAll = async (__, res) => {
     try {
@@ -17,7 +16,7 @@ export const categoryAll = async (__, res) => {
 
 export const categoryID = async (req, res) => {
     try{
-        const category = await getID(req.params.id)
+        const category = await getIDCategory(req.params.id)
         if(!category) return res.status(404).send({messagem: "Not fetch id"})
 
         return res.status(200).json({
@@ -37,6 +36,7 @@ export const createCategory = async (req, res) => {
             categoryName,
             user: req.userId
         })
+
         if (!category) return res.status(400).send({ messagem: "This field cannot be empty" })
         return res.status(200).json({
             messagem: "Sucess!",

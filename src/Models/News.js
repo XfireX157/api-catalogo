@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const {ObjectId} = mongoose.Schema
 
 const NewsSchema = new mongoose.Schema({
     filename: {
@@ -36,10 +37,11 @@ const NewsSchema = new mongoose.Schema({
     },
 
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'users',
         required: true
     }
+
 }, {collection: 'news'})
 
 const News = mongoose.model('news', NewsSchema)
