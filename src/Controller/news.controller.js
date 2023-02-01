@@ -3,7 +3,8 @@ import { create, findAll, getID, deleteID, update, search, findDocuments } from 
 export const getNewsAll = async (__, res) => {
     try {
         const news = await findAll()
-
+        const newsDocuments = await findDocuments()
+        
         if (news.length === 0) return res.status(404).send({ messagem: "Not news registers" })
 
         res.status(200).json({
