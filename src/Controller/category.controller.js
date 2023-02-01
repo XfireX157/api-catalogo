@@ -18,7 +18,7 @@ export const categoryAll = async (__, res) => {
 export const categoryID = async (req, res) => {
     try{
         const category = await getIDCategory(req.params.id)
-        if(!category) return res.status(404).send({messagem: "Not fetch id"})
+        if(!category) return res.status(404).send({messagem: "Not fetch ids"})
 
         return res.status(200).json({
             messagem: "Sucess id",
