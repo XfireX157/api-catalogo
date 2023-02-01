@@ -4,7 +4,7 @@ export const getNewsAll = async (__, res) => {
     try {
         const news = await findAll()
         const newsDocuments = await findDocuments()
-        
+
         if (news.length === 0) return res.status(404).send({ messagem: "Not news registers" })
 
         res.status(200).json({
@@ -81,13 +81,15 @@ export const deleteNews = async (req, res) => {
 
 export const updateID = async (req, res) => {
     try {
-        const { filename, title, description, price, discount } = req.body
+        const { title, description, price, discount } = req.body
+        const { filename, path } = req.file
         const { id } = req.params
 
         await update(
             id,
             filename,
             title,
+            path,
             description,
             price,
             discount
@@ -96,7 +98,7 @@ export const updateID = async (req, res) => {
         res.status(200).json({
             messagem: "Update sucess",
             results: {
-                filename, title, description, price, discount
+                id, filename, path ,title, description, price, discount
             }
         })
     } catch (err) {
