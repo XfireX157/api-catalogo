@@ -11,6 +11,6 @@ news
     .get('/search', searchNews)
     .post('/Create', tokenLogin, upload.single('image'), createNews)
     .delete('/Delete/:id', tokenLogin, deleteNews)
-    .patch('/Update/:id', tokenLogin, updateID)
+    .patch('/Update/:id', tokenLogin, upload.single('image'), updateID)
 
 export default news
