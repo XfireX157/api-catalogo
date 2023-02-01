@@ -41,7 +41,6 @@ const NewsSchema = new mongoose.Schema({
         ref: 'users',
         required: true
     }
-
 }, {collection: 'news'})
 
 const News = mongoose.model('news', NewsSchema)

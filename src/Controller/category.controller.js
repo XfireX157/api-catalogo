@@ -1,5 +1,6 @@
 import { create, findAll, deleteIDCategory, updateID, getIDCategory } from "../Services/categoryService.js";
 
+
 export const categoryAll = async (__, res) => {
     try {
         const category = await findAll()
@@ -36,7 +37,7 @@ export const createCategory = async (req, res) => {
             categoryName,
             user: req.userId
         })
-
+        
         if (!category) return res.status(400).send({ messagem: "This field cannot be empty" })
         return res.status(200).json({
             messagem: "Sucess!",

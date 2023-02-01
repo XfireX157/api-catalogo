@@ -11,8 +11,9 @@ db()
 const port = (process.env.PORT) || 3333
 
 app.use(cors());
-  
 app.use('/images', express.static('upload'))
+app.use(cors());
+
 
 routes(app)
 

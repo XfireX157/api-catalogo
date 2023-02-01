@@ -1,9 +1,8 @@
 import { create, findAll, getID, deleteID, update, search, findDocuments } from '../Services/newsService.js'
 
-export const getNewsAll = async (req, res) => {
-    try { 
+export const getNewsAll = async (__, res) => {
+    try {
         const news = await findAll()
-        const newsDocuments = await findDocuments() //How many products registered in database
 
         if (news.length === 0) return res.status(404).send({ messagem: "Not news registers" })
 
@@ -21,7 +20,6 @@ export const getNewsAll = async (req, res) => {
                 category: item.category,
                 user: item.user,
             })),
-
         })
     } catch (error) {
         return res.status(400).send({ messagem: error.messagem })
@@ -64,7 +62,6 @@ export const createNews = async (req, res) => {
     } catch (err) {
         return res.status(400).send({ messagem: err.messagem })
     }
-
 }
 
 export const deleteNews = async (req, res) => {
