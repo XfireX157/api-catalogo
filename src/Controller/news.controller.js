@@ -112,6 +112,7 @@ export const searchNews = async (req, res) => {
         const news = await search(searchTerm)
 
         return res.status(200).json({
+            url: process.env.URL || "http://localhost:3333/images/",
             results: news
         })
     } catch (err) {
