@@ -1,5 +1,5 @@
 import { create, findAll, deleteIDCategory, updateID, getIDCategory } from "../Services/categoryService.js";
-
+import News from '../Models/News.js'
 
 export const categoryAll = async (__, res) => {
     try {
@@ -50,12 +50,15 @@ export const createCategory = async (req, res) => {
 
 export const deleteCategory = async (req, res) => {
     try {
-        const category = await deleteIDCategory(req.params.id)
-        if (!category) return res.status(400).send({ messagem: "Not fetch id" })
-
+        const categoryId = req.params.id;
+        const category = await deleteIDCategory(categoryId)
+        const news = await News.deleteMany({category: category.categoryName})
         return res.status(200).json({
             messagem: "Item delete sucess",
-            results: category   
+            results: {
+                category,
+                news
+            }
         })
     } catch (err) {
         return res.status(400).send({ messagem: err.messagem })

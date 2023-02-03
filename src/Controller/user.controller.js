@@ -3,7 +3,6 @@ import { create, findAll, findID, loginFind, updatePassword } from '../Services/
 export const getAll = async (__, res) => {
     try {
         const user = await findAll()
-
         if (user.length === 0) return res.status(404).send({ messagem: "Not users registers" })
 
         return res.status(200).json({
