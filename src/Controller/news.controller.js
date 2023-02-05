@@ -89,15 +89,29 @@ export const updateID = async (req, res) => {
         const { filename, path } = req.file
         const { id } = req.params
 
-        await update(
-            id,
+        const obj = {
             filename,
             title,
             path,
             description,
             price,
             discount
+        }
+      
+        const objToUpdate = {}
+                                    //title = Teste2
+        Object.entries(obj).forEach(([key, value]) => {
+            if (typeof value !== 'undefined') {
+              objToUpdate[key] = value
+            }
+        })
+
+        await update(
+            id,
+            objToUpdate
         )
+
+        console.log(objToUpdate)
 
         res.status(200).json({
             messagem: "Update sucess",
