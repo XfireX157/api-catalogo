@@ -9,11 +9,10 @@ export const getNewsAll = async (__, res) => {
 
         res.status(200).json({
             messagem: "Sucessful!",
-            url: process.env.URL || "http://localhost:3333/images/",
             newsDocuments,
             results: news.map((item) => ({
                 id: item._id,
-                filename: item.filename,
+                filename: process.env.URL + item.filename || "http://localhost:3333/images/" + item.filename,
                 title: item.title,
                 description: item.description,
                 discount: item.discount,
@@ -55,9 +54,14 @@ export const createNews = async (req, res) => {
             category,
             user: req.userId
         })
-        res.status(201).json({
+
+        return res.status(201).json({
             sucess: true,
-            news
+            results: {
+                ...news._doc,
+                filename: process.env.URL + filename || "http://localhost:3333/images/" + filename
+            }
+            
         })
 
     } catch (err) {
