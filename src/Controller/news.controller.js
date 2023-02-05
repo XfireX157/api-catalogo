@@ -61,7 +61,6 @@ export const createNews = async (req, res) => {
                 ...news._doc,
                 filename: process.env.URL + filename || "http://localhost:3333/images/" + filename
             }
-            
         })
 
     } catch (err) {
