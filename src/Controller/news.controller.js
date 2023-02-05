@@ -99,7 +99,7 @@ export const updateID = async (req, res) => {
         }
       
         const objToUpdate = {}
-                                    //title = Teste2
+                                  //title = Teste2
         Object.entries(obj).forEach(([key, value]) => {
             if (typeof value !== 'undefined') {
               objToUpdate[key] = value
@@ -110,8 +110,6 @@ export const updateID = async (req, res) => {
             id,
             objToUpdate
         )
-
-        console.log(objToUpdate)
 
         res.status(200).json({
             messagem: "Update sucess",
