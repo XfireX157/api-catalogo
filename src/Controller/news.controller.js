@@ -92,19 +92,15 @@ export const updateID = async (req, res) => {
         const objToUpdate = {}
         const findObjectId = await getID(id)
 
-        //title = Teste2
+                                  //title = Teste2
         Object.entries(obj).forEach(([key, value]) => {
             if(key === 'title' && value === findObjectId.title){
                 findObjectId.title = value
-            }
-            else if(key === 'description' && value === findObjectId.description) {
-                findObjectId.description = value
             }
             else if (typeof value !== 'undefined') {
                 objToUpdate[key] = value
             }
         })
-        console.log(objToUpdate)
 
         const updatedProduct = await update(
             id,
