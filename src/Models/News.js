@@ -43,6 +43,6 @@ const NewsSchema = new mongoose.Schema({
     }
 }, {collection: 'news'})
 
-const News = mongoose.model('news', NewsSchema)
+const News = mongoose.model('news', NewsSchema) 
 
 export default News

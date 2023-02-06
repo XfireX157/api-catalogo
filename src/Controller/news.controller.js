@@ -88,33 +88,32 @@ export const updateID = async (req, res) => {
         const { filename, path } = req.file
         const { id } = req.params
 
-        const obj = {
-            filename,
-            title,
-            path,
-            description,
-            price,
-            discount
-        }
-      
+        const obj = { filename, title, path, description, price, discount }
         const objToUpdate = {}
-                                  //title = Teste2
+        const findObjectId = await getID(id)
+
+        //title = Teste2
         Object.entries(obj).forEach(([key, value]) => {
-            if (typeof value !== 'undefined') {
-              objToUpdate[key] = value
+            if(key === 'title' && value === findObjectId.title){
+                findObjectId.title = value
+            }
+            else if(key === 'description' && value === findObjectId.description) {
+                findObjectId.description = value
+            }
+            else if (typeof value !== 'undefined') {
+                objToUpdate[key] = value
             }
         })
+        console.log(objToUpdate)
 
-        await update(
+        const updatedProduct = await update(
             id,
             objToUpdate
         )
-
-        res.status(200).json({
+        
+        return res.status(200).json({
             messagem: "Update sucess",
-            results: {
-                id, filename, path ,title, description, price, discount
-            }
+            results: updatedProduct
         })
     } catch (err) {
         return res.status(400).send({ messagem: err.message })
