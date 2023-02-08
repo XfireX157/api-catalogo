@@ -108,7 +108,10 @@ export const updateID = async (req, res) => {
         
         return res.status(200).json({
             messagem: "Update sucess",
-            results: updatedProduct
+            results: {
+                ...updatedProduct._doc,
+                filename: process.env.URL + filename || "http://localhost:3333/images/" + filename
+            }
         })
     } catch (err) {
         return res.status(400).send({ messagem: err.message })
