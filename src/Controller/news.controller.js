@@ -1,4 +1,4 @@
-import { create, findAll, getID, deleteID, updateNews, search, findDocuments } from '../Services/newsService.js'
+import { create, findAll, getID, deleteID, update, search, findDocuments } from '../Services/newsService.js'
 
 export const getNewsAll = async (__, res) => {
     try {
@@ -88,19 +88,31 @@ export const updateID = async (req, res) => {
         const { filename, path } = req.file
         const { id } = req.params
 
-        const news = await updateNews(
-            id,
-            filename,
-            title,
-            path,
-            description,
-            price,
-            discount
-        )
+        const obj = { filename, title, path, description, price, discount }
+        const objToUpdate = {}
+        const findObjectId = await getID(id)
 
+                                  //title = Teste2
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key === 'title' && value === findObjectId.title){
+                findObjectId.title = value
+            }
+            else if (typeof value !== 'undefined') {
+                objToUpdate[key] = value
+            }
+        })
+
+        const updatedProduct = await update(
+            id,
+            objToUpdate
+        )
+        
         return res.status(200).json({
             messagem: "Update sucess",
-            results: news
+            results: {
+                ...updatedProduct._doc,
+                filename: process.env.URL + filename || "http://localhost:3333/images/" + filename
+            }
         })
     } catch (err) {
         return res.status(400).send({ messagem: err.message })
