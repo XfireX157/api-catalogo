@@ -91,7 +91,6 @@ export const updateID = async (req, res) => {
         const obj = { filename, title, path, description, price, discount }
         const objToUpdate = {}
         const findObjectId = await getID(id)
-
                                   //title = Teste2
         Object.entries(obj).forEach(([key, value]) => {
             if(key === 'title' && value === findObjectId.title){
@@ -109,10 +108,7 @@ export const updateID = async (req, res) => {
         
         return res.status(200).json({
             messagem: "Update sucess",
-            results: {
-                ...updatedProduct._doc,
-                filename: process.env.URL + filename || "http://localhost:3333/images/" + filename
-            }
+            results: updatedProduct
         })
     } catch (err) {
         return res.status(400).send({ messagem: err.message })
