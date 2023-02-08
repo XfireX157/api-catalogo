@@ -1,4 +1,4 @@
-import { create, findAll, getID, deleteID, update, search, findDocuments } from '../Services/newsService.js'
+import { create, findAll, getID, deleteID, updateNews, search, findDocuments } from '../Services/newsService.js'
 
 export const getNewsAll = async (__, res) => {
     try {
@@ -88,33 +88,19 @@ export const updateID = async (req, res) => {
         const { filename, path } = req.file
         const { id } = req.params
 
-        const obj = {
+        const news = await updateNews(
+            id,
             filename,
             title,
             path,
             description,
             price,
             discount
-        }
-      
-        const objToUpdate = {}
-                                  //title = Teste2
-        Object.entries(obj).forEach(([key, value]) => {
-            if (typeof value !== 'undefined') {
-              objToUpdate[key] = value
-            }
-        })
-
-        await update(
-            id,
-            objToUpdate
         )
 
-        res.status(200).json({
+        return res.status(200).json({
             messagem: "Update sucess",
-            results: {
-                id, filename, path ,title, description, price, discount
-            }
+            results: news
         })
     } catch (err) {
         return res.status(400).send({ messagem: err.message })
