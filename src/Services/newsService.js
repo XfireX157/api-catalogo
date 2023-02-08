@@ -1,6 +1,6 @@
 import News from "../Models/News.js";
 
-export const create = (body) => News.create(body)
+export const create = (body) => News.create(body).sort({_id: -1})
 export const findDocuments = () => News.countDocuments()
 export const getID = (id) => News.findById(id)
 export const findAll = () => News.find().sort({_id: -1}).populate('user', 'category')
